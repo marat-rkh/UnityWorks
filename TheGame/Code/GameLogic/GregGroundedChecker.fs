@@ -4,16 +4,16 @@ open UnityEngine
 
 open Main
 
-type PlayerGroundedChecker() =
+type GregGroundedChecker() =
     inherit MonoBehaviour() 
 
-    let mutable player = null
+    let mutable gregController = null
 
     member x.Start () = 
-        player <- x.GetComponentInParent<PlayerController>()
+        gregController <- x.GetComponentInParent<GregController>()
 
     member x.OnTriggerEnter2D (collider : Collider2D) = 
-        player.SetGrounded true
+        gregController.SetGrounded true
 
     member x.OnTriggerExit2D (collider : Collider2D) = 
-        player.SetGrounded false
+        gregController.SetGrounded false

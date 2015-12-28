@@ -3,7 +3,7 @@
 open UnityEngine
 
 [<AllowNullLiteral>]
-type PlayerController() =
+type GregController() =
     inherit MonoBehaviour()
 
     [<SerializeField>]

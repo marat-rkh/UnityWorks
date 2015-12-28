@@ -48,8 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Main.fs" />
-    <Compile Include="PlayerGroundedChecker.fs" />
+    <Compile Include="GregController.fs" />
+    <Compile Include="GregGroundedChecker.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
