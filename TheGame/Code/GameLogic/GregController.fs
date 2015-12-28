@@ -6,16 +6,26 @@ open UnityEngine
 type GregController() =
     inherit MonoBehaviour()
 
+    // general parameters
     [<SerializeField>]
     let mutable speed = 30.0f
 
+    [<SerializeField>]
+    let mutable jumpPower = 150.0f
+
+    // components
     let mutable rb2d = null
     let mutable animator = null
     let mutable grounded = true
 
+    // animator parameters
     let animatorParamSpeed = "Speed"
     let animatorParamThrowsCandies = "ThrowsCandies"
     let animatorParamGrounded = "Grounded"
+
+    // controls' labels
+    let action1Button = "Action1"
+    let jumpButton = "Jump"
 
     let makeXScaleNegative (s : Vector3) =
         Vector3 (-1.0f * (Mathf.Abs s.x), s.y, s.z)
@@ -45,8 +55,11 @@ type GregController() =
                 else makeXScalePositive currentScale
             else currentScale
 
-        if Input.GetKeyDown KeyCode.K
+        if Input.GetButtonDown action1Button
         then animator.SetTrigger(animatorParamThrowsCandies)
+
+        if Input.GetButtonDown jumpButton && grounded
+        then rb2d.AddForce (Vector2.up * jumpPower)
 
     member x.SetGrounded value = 
         grounded <- value
