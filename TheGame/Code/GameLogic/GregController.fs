@@ -33,6 +33,15 @@ type GregController() =
     let makeXScalePositive (s : Vector3) =
         Vector3 (Mathf.Abs s.x, s.y, s.z)
 
+    let handleCharacterRotation (x : MonoBehaviour) horizontalAxis = 
+        let currentScale = x.transform.localScale
+        x.transform.localScale <- 
+            if horizontalAxis <> 0.0f then
+                if horizontalAxis < 0.0f
+                then makeXScaleNegative currentScale
+                else makeXScalePositive currentScale
+            else currentScale
+
     member x.Start () = 
         rb2d <- x.GetComponent<Rigidbody2D>()
         animator <- x.GetComponent<Animator>()
@@ -42,18 +51,13 @@ type GregController() =
 
     member x.FixedUpdate () =
         let h = Input.GetAxis("Horizontal")
-        rb2d.velocity <- Vector2(speed * h, rb2d.velocity.y)
+        if grounded
+        then rb2d.velocity <- Vector2(speed * h, rb2d.velocity.y)
 
         animator.SetFloat(animatorParamSpeed, Mathf.Abs(rb2d.velocity.x))
         animator.SetBool(animatorParamGrounded, grounded)
 
-        let currentScale = x.transform.localScale
-        x.transform.localScale <- 
-            if h <> 0.0f then
-                if h < 0.0f
-                then makeXScaleNegative currentScale
-                else makeXScalePositive currentScale
-            else currentScale
+        handleCharacterRotation x h
 
         if Input.GetButtonDown action1Button
         then animator.SetTrigger(animatorParamThrowsCandies)
